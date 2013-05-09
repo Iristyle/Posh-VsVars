@@ -1,3 +1,4 @@
+![logo_256.png](logo_256.png)
 # Posh-VsVars
 
 Powershell cmdlets to help import Visual Studios `vsvars32.bat` into the current
@@ -65,6 +66,16 @@ The same as above, except will only look for Visual Studio 2012.
 ```powershell
 Get-VsVars -Version '11.0'
 ```
+
+## Credits
+
+* Original concept is derived from Chris Tavares ([@gzortch][]) - [The last vsvars32 I'll ever need][]
+* Icon is from Scott Hanselman ([@shanselman][]) - courtesy of his [blog posting][]
+
+[@gzortch]: https://github.com/gzortch
+[The last vsvars32 I'll ever need]: http://www.tavaresstudios.com/Blog/post/The-last-vsvars32ps1-Ill-ever-need.aspx
+[@shanselman]: https://github.com/shanselman
+[blog posting]: http://www.hanselman.com/blog/AwesomeVisualStudioCommandPromptAndPowerShellIconsWithOverlays.aspx
 
 ## Roadmap
 
