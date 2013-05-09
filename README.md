@@ -45,10 +45,10 @@ Set-VsVars -Version '11.0'
 
 Note a couple of useful points about this cmdlet:
 
-- The PROMPT environment variable is excluded from being overwritten
+- The `PROMPT` environment variable is excluded from being overwritten
 - A global variable in the current session ensures that the same
 environment variables haven't been loaded multiple times.
-- PATH has duplicate entries removed in an effort to prevent it from
+- `PATH` has duplicate entries removed in an effort to prevent it from
 exceeding the length allowed by the shell (generally 2048 characters)
 
 ### Get-VsVars
