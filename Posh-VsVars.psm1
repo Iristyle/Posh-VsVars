@@ -82,6 +82,7 @@ function Get-VsVars
    9.0      Visual Studio 2008
   10.0      Visual Studio 2010
   11.0      Visual Studio 2012
+  12.0      Visual Studio 2013
   latest    Finds the latest version installed automatically (default)
 .Outputs
   Returns a [Hashtable]
@@ -108,7 +109,7 @@ function Get-VsVars
   [CmdletBinding()]
   param(
     [string]
-    [ValidateSet('7.1', '8.0', '9.0', '10.0', '11.0', 'latest')]
+    [ValidateSet('7.1', '8.0', '9.0', '10.0', '11.0', '12.0', 'latest')]
     $Version = 'latest'
   )
 
@@ -162,6 +163,7 @@ function Set-VsVars
    9.0      Visual Studio 2008
   10.0      Visual Studio 2010
   11.0      Visual Studio 2012
+  12.0      Visual Studio 2013
   latest    Will find the latest version installed automatically (default)
 .Example
   Set-VsVars -Version '10.0'
@@ -186,7 +188,7 @@ function Set-VsVars
   [CmdletBinding()]
   param(
     [string]
-    [ValidateSet('8.0', '9.0', '10.0', '11.0', 'latest')]
+    [ValidateSet('8.0', '9.0', '10.0', '11.0', '12.0', 'latest')]
     $Version = 'latest'
   )
 
