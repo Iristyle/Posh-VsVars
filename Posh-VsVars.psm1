@@ -109,7 +109,7 @@ function Get-VsVars
   [CmdletBinding()]
   param(
     [string]
-    [ValidateSet('7.1', '8.0', '9.0', '10.0', '11.0', '12.0', 'latest')]
+    [ValidateSet('7.1', '8.0', '9.0', '10.0', '11.0', '12.0', '14.0', 'latest')]
     $Version = 'latest'
   )
 
@@ -188,7 +188,7 @@ function Set-VsVars
   [CmdletBinding()]
   param(
     [string]
-    [ValidateSet('8.0', '9.0', '10.0', '11.0', '12.0', 'latest')]
+    [ValidateSet('8.0', '9.0', '10.0', '11.0', '12.0', '14.0', 'latest')]
     $Version = 'latest'
   )
 
@@ -202,7 +202,7 @@ function Set-VsVars
   if ($setVersion) { return }
 
   (Get-VsVars -Version $Version).GetEnumerator() |
-    ? { $_.Key -ne 'PROMPT' } |
+    ? { $_.Key -ne 'PROMPT' -and -not [string]::IsNullOrEmpty($_.Key)} |
     % {
       $name = $_.Key
       $path = "Env:$name"
