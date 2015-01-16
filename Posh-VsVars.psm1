@@ -202,7 +202,7 @@ function Set-VsVars
   if ($setVersion) { return }
 
   (Get-VsVars -Version $Version).GetEnumerator() |
-    ? { $_.Key -ne 'PROMPT' } |
+    ? { $_.Key -ne 'PROMPT' -and -not [string]::IsNullOrEmpty($_.Key)} |
     % {
       $name = $_.Key
       $path = "Env:$name"
