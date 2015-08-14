@@ -5,7 +5,7 @@ $script:rootVsKey = if ([IntPtr]::size -eq 8)
 else
   { "HKLM:SOFTWARE\Microsoft\VisualStudio" }
 
-function Get-Batchfile ($file)
+function Get-Batchfile ($file, $config)
 {
   if (!(Test-Path $file))
   {
@@ -13,7 +13,7 @@ function Get-Batchfile ($file)
   }
 
   Write-Verbose "Executing batch file $file in separate shell"
-  $cmd = "`"$file`" & set"
+  $cmd = "`"$file`" $config & set"
   $environment = @{}
   cmd /c $cmd | % {
     $p, $v = $_.split('=')
@@ -109,13 +109,16 @@ function Get-VsVars
   [CmdletBinding()]
   param(
     [string]
+    [ValidateSet('x86', 'amd64')]
+    $Config = 'x86',
+    [string]
     [ValidateSet('7.1', '8.0', '9.0', '10.0', '11.0', '12.0', 'latest')]
     $Version = 'latest'
   )
 
   if ($version -eq 'latest') { $version = Get-LatestVsVersion }
 
-  Write-Verbose "Reading VSVars for $version"
+  Write-Verbose "Reading VSVars for $version $config"
 
   $VsKey = Get-ItemProperty "$script:rootVsKey\$version" -ErrorAction SilentlyContinue
   if (!$VsKey -or !$VsKey.InstallDir)
@@ -125,13 +128,13 @@ function Get-VsVars
   }
 
   $VsRootDir = Split-Path $VsKey.InstallDir
-  $BatchFile = Join-Path (Join-Path $VsRootDir 'Tools') 'vsvars32.bat'
+  $BatchFile = Join-Path (Join-Path $VsRootDir '..\VC') 'vcvarsall.bat'
   if (!(Test-Path $BatchFile))
   {
     Write-Warning "Could not find Visual Studio $version batch file $BatchFile"
     return
   }
-  return Get-Batchfile $BatchFile
+  return Get-Batchfile $BatchFile $Config
 }
 
 function Set-VsVars
@@ -188,6 +191,9 @@ function Set-VsVars
   [CmdletBinding()]
   param(
     [string]
+    [ValidateSet('x86', 'amd64')]
+    $Config = 'x86',
+    [string]
     [ValidateSet('8.0', '9.0', '10.0', '11.0', '12.0', 'latest')]
     $Version = 'latest'
   )
@@ -201,7 +207,7 @@ function Set-VsVars
 
   if ($setVersion) { return }
 
-  (Get-VsVars -Version $Version).GetEnumerator() |
+  (Get-VsVars -Version $Version -Config $Config).GetEnumerator() |
     ? { $_.Key -ne 'PROMPT' } |
     % {
       $name = $_.Key
