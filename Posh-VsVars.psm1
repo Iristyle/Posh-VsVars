@@ -194,8 +194,9 @@ function Set-VsVars
     $Version = 'latest'
   )
 
+  if ($version -eq 'latest') { $version = Get-LatestVsVersion }
+  
   $name = "Posh-VsVars-Set-$Version"
-  if ($Version -eq 'latest') { $name = "Posh-VsVars-Set-$(Get-LatestVsVersion)" }
 
   #continually jamming stuff into PATH is *not* cool ;0
   $setVersion = Get-Variable -Scope Global -Name $name `
