@@ -83,6 +83,7 @@ function Get-VsVars
   10.0      Visual Studio 2010
   11.0      Visual Studio 2012
   12.0      Visual Studio 2013
+  14.0      Visual Studio 2015
   latest    Finds the latest version installed automatically (default)
 .Outputs
   Returns a [Hashtable]
@@ -109,7 +110,7 @@ function Get-VsVars
   [CmdletBinding()]
   param(
     [string]
-    [ValidateSet('7.1', '8.0', '9.0', '10.0', '11.0', '12.0', 'latest')]
+    [ValidateSet('7.1', '8.0', '9.0', '10.0', '11.0', '12.0', '14.0', 'latest')]
     $Version = 'latest'
   )
 
@@ -164,6 +165,7 @@ function Set-VsVars
   10.0      Visual Studio 2010
   11.0      Visual Studio 2012
   12.0      Visual Studio 2013
+  14.0      Visual Studio 2015
   latest    Will find the latest version installed automatically (default)
 .Example
   Set-VsVars -Version '10.0'
@@ -188,12 +190,13 @@ function Set-VsVars
   [CmdletBinding()]
   param(
     [string]
-    [ValidateSet('8.0', '9.0', '10.0', '11.0', '12.0', 'latest')]
+    [ValidateSet('8.0', '9.0', '10.0', '11.0', '12.0', '14.0', 'latest')]
     $Version = 'latest'
   )
 
+  if ($version -eq 'latest') { $version = Get-LatestVsVersion }
+  
   $name = "Posh-VsVars-Set-$Version"
-  if ($Version -eq 'latest') { $name = "Posh-VsVars-Set-$(Get-LatestVsVersion)" }
 
   #continually jamming stuff into PATH is *not* cool ;0
   $setVersion = Get-Variable -Scope Global -Name $name `
